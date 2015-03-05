@@ -1,0 +1,32 @@
+<html>
+  <head>
+  <meta charset="UTF-8" />
+  <title>Details: TODOリスト</title>
+  <link rel="stylesheet" href="../todolist_details.css">
+</head>
+<body>
+  <div id="header-fixed">
+    <div id="header-bk">
+      <div id="header">
+        <a href = "search.html"><Div Align="right"><font size="5" color="#69B1B4">検索</font></Div></a>
+        <a href = "todolist.html"><font size="6" color="#fff999">TODOリスト</font></a>
+      </div>
+    </div>
+  </div>
+  <div id="body-bk">
+    <div id="form">
+      <div id="new-todo">
+        新しいToDoを作成する
+        <form>ToDo名<input type = "text" id = "name" name = "todoname" size="50"></form>
+        <form>期限<input type = "text" id = "limit" name = "todolimit" size="50"></form>
+        <input id="addToDo" type="button" value="ToDoの追加">
+        <input id="kakunin" type="button" value="ただの確認">
+        <div id="listall"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+  <script src="../createtodo.js"></script>
+</body>
+</html>
