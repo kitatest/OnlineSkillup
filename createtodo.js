@@ -40,6 +40,7 @@ function saveTodo() {
     var array = {};
     //var todoName = "todo" + $("#name").val();
     array['todoName'] = $("#name").val();
+    array['todotype'] = "todo"
     array['todoLimit'] = $("#limit").val();
     todoListName = getParameter();
     nowtime = new Date();
@@ -48,7 +49,7 @@ function saveTodo() {
     var day = nowtime.getDate().toString();
     array['todoDate'] = year + "年" + month + "月" + day + "日";
     //var time = new Date();
-    localStorage[todoListName] = JSON.stringify(array));
+    localStorage.setItem(todoListName, JSON.stringify(array));
     //alert(array);
     // テキストボックスを空にする
     $("#name").val("");

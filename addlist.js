@@ -25,6 +25,12 @@ function loaded() {
       sortDate();
   });
 
+  $("#addButton").click(
+    function(event) {
+    addData();
+    sortDate();
+  });
+
   $("#sortButton").click(
     function() {
       sortDate();
@@ -51,8 +57,8 @@ function saveText() {
     var hour = toDoubleDigits(nowtime.getHours()).toString();
     var minute = toDoubleDigits(nowtime.getMinutes()).toString();
     var second = toDoubleDigits(nowtime.getSeconds()).toString();
-    array['listDate'] = year + "/" + month + "/" + day;
-    array['listTime'] = hour + ":" + minute + ":" + second;
+    array['listDate'] = year + month + day + hour + minute + second;
+    //array['listTime'] = hour + ":" + minute + ":" + second;
     listid = "list" + array.listName;
     //alert(listid);
     localStorage.setItem(listid, JSON.stringify(array));
@@ -78,51 +84,60 @@ function clearText() {
   listnum = 0;
 }
 
+function addData() {
+  var array = {};
+  array['listName'] = "れぽーと";
+  array['todotype'] = "list";
+  array['listDate'] = "20140305151039";
+  listid = "list" + array.listName;
+  localStorage.setItem(listid, JSON.stringify(array));
+
+  array['listName'] = "おてつだい";
+  array['todotype'] = "list";
+  array['listDate'] = "20150305151039";
+  listid = "list" + array.listName;
+  localStorage.setItem(listid, JSON.stringify(array));
+
+  array['listName'] = "おしごと";
+  array['todotype'] = "list";
+  array['listDate'] = "20160305151039";
+  listid = "list" + array.listName;
+  localStorage.setItem(listid, JSON.stringify(array));
+}
+
 // ローカルストレージに保存した値を日付順にソートして再描画する
 function sortDate() {
-  var dateArray = Array();
-  var timeArray = Array();
-  var sortTimeArray = Array();
-
+  //var forSortArray = {};
+  var forSortArray = Array();
+  var sortListNum = 0;
 // 日付の比較
   for(var i=0, storagelen=localStorage.length; i<storagelen; i++) {
-    var key = localStorage.key(i);
-    dateArray[i] = (JSON.parse(localStorage.getItem(key))).listDate;
-    timeArray[i] = (JSON.parse(localStorage.getItem(key))).listTime;
-  }
-  dateArray.sort(function(a, b) {
-          return (a < b ? 1 : -1);
-     });
-
-// 日付が同じ場合は時間の比較
-  for(i=0, arraylen=dateArray.length; i<arraylen; i++) {
-    for(j=0; j<arraylen; j++) {
-      if(dateArray[i] == dateArray[j] && i < j) {
-        sortTimeArray[0] = timeArray[i];
-        sortTimeArray[1] = timeArray[j];
-        sortTimeArray.sort(function(a, b) {
-          return (a < b ? 1 : -1);
-        });
-        timeArray[i] = sortTimeArray[0];
-        timeArray[j] = sortTimeArray[1];
-        //alert(i + "番目:" + timeArray[i]);
-        //alert(j + "番目:" + timeArray[j]);
-      }
+    var forSortkey = localStorage.key(i);
+    var forSortvalue = JSON.parse(localStorage.getItem(forSortkey));
+    if (forSortvalue.todotype == "list"){
+      // listDateには「yyyy/mm/dd」が入っている
+      forSortArray[sortListNum] = forSortvalue.listDate;
+      //listTimeには「hh:mm:ss」が入っている
+      //forSortArray[sortListNum]['time'] = forSortvalue.listTime;
+      //alert(forSortArray[sortListNum]);
+      //alert(sortListNum + ":" + forSortArray[sortListNum]['date'] + ":" + forSortArray[sortListNum]['time']);
+      sortListNum++;
     }
   }
-  //alert(timeArray);
+  forSortArray.sort(function(a, b) {
+    return (a < b ? 1 : -1);
+  });
 
-//時刻が一致しているのをLocalStorageから探して、順番に表示する
+  //時刻が一致しているのをLocalStorageから探して、順番に表示する
   // すでにある要素を削除する
   var list = $("#listall")
   list.children().remove();
   var html = [];
-  for(i=0; i<arraylen; i++) {
+  for(i=0, arraylen=forSortArray.length; i<arraylen; i++) {
     for(var j=0; j<storagelen; j++) {
       key = localStorage.key(j);
       value = JSON.parse(localStorage.getItem(key));
-      // 同時刻にTODOが作られないことを祈る
-      if(timeArray[i] == value.listTime){
+      if(forSortArray[i] == value.listDate){
         //alert(value.listName);
        html.push("<div id = \"list\"><a href = \"todoadd.html/?id=" + value.listName + "\">" + value.listName + "</a></div>");
       };
