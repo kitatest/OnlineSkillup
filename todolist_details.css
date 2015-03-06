@@ -27,21 +27,54 @@ div#header-bk {
 
 div#header {
   border: 5px solid #fff;    /* 表示領域を白枠で囲う */
-  padding: 30px 30px;       /* 上10px、下20pxをあける */
+  padding: 30px 30px;       /* 上30px、下30pxをあける */
   height: 50%;              /* 縦の表示領域はheader-bkと同じ */
   width: 960px;              /* 横の幅970px */
   margin: auto;              /* 中央揃え */
 }
 
-/* ボディの定義 */
 div#body-bk {
-    padding:160px 0 160px 0;    /* 上下に160pxを余白を取る */
+  margin: 160px;               /* 枠のマージン10px */
 }
 
-div#new-todo {
-  border: 5px solid #29526D;    /* 表示領域を白枠で囲う */
-  height: 150px;             /* 縦の幅100px */
+form dl dt {
+  border-left:5px solid #29526D;    /* 表示領域を白枠で囲う */
+  border-bottom: 1px solid #29526D;
+  padding: 5px;       /* 上30px、下30pxをあける */
   width: 460px;              /* 横の幅460px */
   margin: 10px;               /* 枠のマージン10px */
-  padding: 10px 5px 10px 20px
 }
+
+div#todoall dl {
+  border: 5px solid #29526D;    /* 表示領域を白枠で囲う */
+  height: 180px;             /* 縦の幅100px */
+  width: 460px;              /* 横の幅460px */
+  margin: 10px;               /* 枠のマージン10px */
+  padding: 10px 5px 10px 20px; /* 上右下左 */
+}
+
+div#todoall dd {
+  position: relative;
+  top: -60px;
+  left: 250px;
+}
+
+/*
+input#finishButton0 {
+  width: 150px;
+  height: 50px;
+  font-size: 1.2em;
+  background-color: #000;
+  color: #fff;
+  border-style: none;
+}
+
+input#finishButton1 {
+  width: 150px;
+  height: 50px;
+    font-size: 1.2em;
+    background-color: #000;
+    color: #fff;
+    border-style: none;
+}
+*/

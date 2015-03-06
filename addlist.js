@@ -47,7 +47,7 @@ function saveText() {
     // 時刻をキーにして入力されたテキストを保存する
     var array = {};
     array['listName'] = $("input:first").val();
-    array['todotype'] = "list"
+    array['todoType'] = "list"
     //array['id'] = localStorage.getItem("listnum");
     //localStorage.setItem("listnum", array.id + 1);
     nowtime = new Date();
@@ -87,19 +87,19 @@ function clearText() {
 function addData() {
   var array = {};
   array['listName'] = "れぽーと";
-  array['todotype'] = "list";
+  array['todoType'] = "list";
   array['listDate'] = "20140305151039";
   listid = "list" + array.listName;
   localStorage.setItem(listid, JSON.stringify(array));
 
   array['listName'] = "おてつだい";
-  array['todotype'] = "list";
+  array['todoType'] = "list";
   array['listDate'] = "20150305151039";
   listid = "list" + array.listName;
   localStorage.setItem(listid, JSON.stringify(array));
 
   array['listName'] = "おしごと";
-  array['todotype'] = "list";
+  array['todoType'] = "list";
   array['listDate'] = "20160305151039";
   listid = "list" + array.listName;
   localStorage.setItem(listid, JSON.stringify(array));
@@ -114,7 +114,7 @@ function sortDate() {
   for(var i=0, storagelen=localStorage.length; i<storagelen; i++) {
     var forSortkey = localStorage.key(i);
     var forSortvalue = JSON.parse(localStorage.getItem(forSortkey));
-    if (forSortvalue.todotype == "list"){
+    if (forSortvalue.todoType == "list"){
       // listDateには「yyyy/mm/dd」が入っている
       forSortArray[sortListNum] = forSortvalue.listDate;
       //listTimeには「hh:mm:ss」が入っている
