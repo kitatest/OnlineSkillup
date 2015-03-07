@@ -8,7 +8,8 @@ function loaded() {
   html.push(getParameter())
   list.append(html.join(''));
 
-  showTodo();
+  sortDate();
+  cssButton();
   //$("#limit").val("yyyy/mm/dd").css("color","#CCC").focus(
     //function() {
     //$(this).val("").css("color","#000")
@@ -18,57 +19,59 @@ function loaded() {
   $("#addToDo").click(
     // コールバックとしてメソッドを引数にわたす
     function () {
-      saveTodo();
-      showTodo();
+      if(errorCheck()){
+        saveTodo();
+        sortDate();
+        cssButton();
+      }
       //alert("リストを作成しました");
     });
 
   $("#kakunin").click(
     function () {
-      errorCheck2();
+      errorCheck();
     });
 
-  $("#finishButton0").click(
+  $(".finishButton").click(
     function () {
-      //var key = $('#todoNum0').text();
-      //alert(test);
-      finishTodo($('#todoNum0 h2').text(), 0);
-  });
+      var key = $(this).attr("id");
+      finishTodo($('#todoNum' + key + ' h2').text(), key);
+      //alert($(key).val());
+      //sortDate();
+    });
 
-  $("#finishButton1").click(
-    function () {
-      finishTodo($('#todoNum1 h2').text(), 1);
-  });
+  //$("#finishButton1").click(
+    //function () {
+      //finishTodo($('#todoNum1 h2').text(), 1);
+  //});
 }
 
 // 入力された内容をローカルストレージに保存する
 function saveTodo() {
-  if(!errorCheck()){
-
-  }else {
     // 入力されたテキストを保存する
-    var array = {};
-    var todoName = $("#name").val();
-    array['listName'] = getParameter();
-    //array['todoName'] = $("#name").val();
-    array['todoType'] = "todo"
-    //var limitDate = Array();
-    //limitDate = $("#limit").val().split("/");
-    array['todoLimit'] = errorCheck();
-    //todoListName = getParameter();
-    nowtime = new Date();
-    var year = nowtime.getFullYear().toString();
-    var month = (nowtime.getMonth() + 1).toString();
-    var day = nowtime.getDate().toString();
-    array['todoDate'] = year + "年" + month + "月" + day + "日";
-    array['finish'] = "N";
-    //var time = new Date();
-    localStorage.setItem(todoName, JSON.stringify(array));
-    //alert(array);
-    // テキストボックスを空にする
-    $("#name").val("");
-    $("#limit").val("");
-  }
+  var array = {};
+  var todoName = $("#name").val();
+  array['listName'] = getParameter();
+  //array['todoName'] = $("#name").val();
+  array['todoType'] = "todo"
+  //var limitDate = Array();
+  //limitDate = $("#limit").val().split("/");
+  var limitDate = Array();
+  limitDate = $("#limit").val().split("/");
+  array['todoLimit'] = toDoubleDigits(limitDate[0]).toString() + toDoubleDigits(limitDate[1]).toString() + toDoubleDigits(limitDate[2]).toString();
+  //todoListName = getParameter();
+  nowtime = new Date();
+  var year = toDoubleDigits(nowtime.getFullYear()).toString();
+  var month = toDoubleDigits((nowtime.getMonth() + 1)).toString();
+  var day = toDoubleDigits(nowtime.getDate()).toString();
+  array['todoDate'] = year + "年" + month + "月" + day + "日";
+  array['finish'] = "N";
+  //var time = new Date();
+  localStorage.setItem(todoName, JSON.stringify(array));
+  //alert(array);
+  // テキストボックスを空にする
+  $("#name").val("");
+  $("#limit").val("");
 }
 
 function errorCheck() {
@@ -81,7 +84,7 @@ function errorCheck() {
   //alert($.isNumeric(limitDate[2]));
   var html = [];
   if($("#name").val().length <= 0){
-    html.push("<p><font size = \"5\" color = \"red\">ToDo名が作成されていません</font></p>");
+    html.push("<p>ToDo名が作成されていません</p>");
     error.append(html.join(''));
     return false;
   }else if(($.isNumeric(limitDate[0])) && ($.isNumeric(limitDate[1])) && ($.isNumeric(limitDate[2]))){
@@ -91,20 +94,20 @@ function errorCheck() {
     var chackDate = new Date(limitYear, limitMonth-1, limitDay);
 
     if(limitYear < 2015) {
-      html.push("<p><font size = \"5\" color = \"red\">期限が2015年より前です</font></p>");
+      html.push("<p><期限が2015年より前です</p>");
       error.append(html.join(''));
       return false;
     }else if(chackDate.getFullYear() == limitYear && chackDate.getMonth() == limitMonth-1 && chackDate.getDate() == limitDay) {
-      alert(limitYear + "年" + limitMonth + "月" + limitDay + "日");
-      return (limitYear + "年" + limitMonth + "月" + limitDay + "日");
-    }else{
-      html.push("<p><font size = \"5\" color = \"red\">正しい期限が入力されていません</font></p>");
-      error.append(html.join(''));
-      return false;
+      //alert(limitYear + "年" + limitMonth + "月" + limitDay + "日");
+      return true;
     }
   }
+  html.push("<p>正しい期限が入力されていません</p>");
+  error.append(html.join(''));
+  return false;
 }
 
+// todoadd.html/?id=の名前を調べる
 function getParameter() {
   var parameter = location.search;
   parameter = parameter.substring(4, parameter.length);
@@ -112,45 +115,76 @@ function getParameter() {
   return parameter;
 }
 
-function showTodo() {
-  var todoNum = 0;
+// 月や日が1桁の時に頭に0を付け足す
+function toDoubleDigits(num) {
+  num += "";
+  if (num.length === 1) {
+    num = "0" + num;
+  }
+ return num;
+}
 
+// ローカルストレージに保存した値を日付順にソートして再描画する
+function sortDate() {
+  //var forSortArray = {};
+  var forSortArray = Array();
+  var sortListNum = 0;
+// 日付の比較
+  for(var i=0, storagelen=localStorage.length; i<storagelen; i++) {
+    var forSortkey = localStorage.key(i);
+    var forSortvalue = JSON.parse(localStorage.getItem(forSortkey));
+    if (forSortvalue.todoType == "todo"){
+      // todoLimitには「yyyymmdd」が入っている
+      forSortArray[sortListNum] = forSortvalue.todoLimit;
+      sortListNum++;
+    }
+  }
+  forSortArray.sort(function(a, b) {
+    return (a > b ? 1 : -1);
+  });
+
+  //時刻が一致しているのをLocalStorageから探して、順番に表示する
   // すでにある要素を削除する
   var list = $("#todoall")
   list.children().remove();
-  for(var i=0, len=localStorage.length; i<len; i++) {
-    var key, value, html = [];
-    key = localStorage.key(i);
-    value = JSON.parse(localStorage.getItem(key));
-    if (value.todoType == "todo"){
-      var finish;
-      if(value.finish == "N") {
-        finish = "未完了";
-      }else if(value.finish == "Y") {
-       finish = "完了";
-      }
-      //var keyCut = (localStorage.key(i)).slice(4);
-  // ローカルストレージに保存された値すべてを要素に追加する
-      html.push("<dl id=todoNum" + todoNum + "><h2>" + key + "</h2><dt><font color = \"#87cefa\">期限：　"+ value.todoLimit + "</dt><dt>作成日：" + value.todoDate + "</dt></font><dd><input id=\"finishButton" + todoNum + "\" type=\"button\" value=\""+ finish + "\"></dd></dl>");
-      //alert('#finishButton' + todoNum);
-      //var test = 2;
+  var html = [];
+  var todoNum = 0;
+  for(i=0, arraylen=forSortArray.length; i<arraylen; i++) {
+    for(var j=0; j<storagelen; j++) {
+      key = localStorage.key(j);
+      value = JSON.parse(localStorage.getItem(key));
+      if(forSortArray[i] == value.todoLimit){
+        //alert(value.listName);
+        var finish;
+        if(value.finish == "N") {
+          finish = "未完了";
+        }else if(value.finish == "Y") {
+          finish = "完了";
+        }
+      var todoLimit = value.todoLimit.slice(0, 4) + "年" + value.todoLimit.slice(4, 6) + "月" + value.todoLimit.slice(6, 8) + "日";
+      html.push("<dl id=todoNum" + todoNum + "><h2>" + key + "</h2><dt>期限：　"+ todoLimit + "</dt><dt>作成日：" + value.todoDate + "</dt><dd><input class=\"finishButton\" id=\"" + todoNum + "\" type=\"button\" value=\""+ finish + "\"></dd></dl>");
       todoNum++;
+      }
     }
-    list.append(html.join(''));
   }
-
-  for(var i=0; i<5; i++) {
-      $('#finishButton' + i).css({
-        "width": "150px",
-        "height": "50px",
-        "font-size": "1.2em",
-        "background-color": "#000",
-        "color": "#fff",
-        "border-style": "none"
-      });
-  }
+  list.append(html.join(''));
 }
 
+
+function cssButton() {
+  for(var i=0; i<11; i++) {
+    if($('#' + i)[0]){
+      $('#' + i).css({
+      "width": "150px",
+      "height": "50px",
+      "font-size": "1.2em",
+      "background-color": "#000",
+      "color": "#fff",
+      "border-style": "none"
+      });
+    }
+  }
+}
 
 function finishTodo(key, buttonNum) {
   //alert(key + ":" + buttonNum);
@@ -163,11 +197,11 @@ function finishTodo(key, buttonNum) {
   array['todoLimit'] = value.todoLimit;
   array['todoDate'] = value.todoDate;
   if(value.finish == "N") {
-    $('#finishButton' + buttonNum).val("完了");
     array['finish'] = "Y";
+    $('#' + buttonNum).val("完了");
   }else if(value.finish == "Y") {
-    $('#finishButton' + buttonNum).val("未完了");
     array['finish'] = "N";
+    $('#' + buttonNum).val("未完了");
   }
   localStorage.setItem(key, JSON.stringify(array));
 }

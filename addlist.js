@@ -14,21 +14,25 @@ function loaded() {
   $("#formButton").click(
     // コールバックとしてメソッドを引数にわたす
     function () {
-      saveText();
-      sortDate();
+      if(errorCheck()){
+        saveText();
+        sortDate();
       //alert("リストを作成しました");
-    });
+    }
+  });
 
   $("form").submit(
     function() {
-      saveText();
-      sortDate();
+      if(errorCheck()){
+        saveText();
+        sortDate();
+      }
   });
 
   $("#addButton").click(
-    function(event) {
-    addData();
-    sortDate();
+    function() {
+      addData();
+      sortDate();
   });
 
   $("#sortButton").click(
@@ -39,14 +43,11 @@ function loaded() {
 
 // 入力された内容をローカルストレージに保存する
 function saveText() {
-  if($("input:first").val().length > 5){
-    alert("5文字以上になりました");
-  }else if($("input:first").val().length <= 0){
-    alert("入力されてません");
-  }else{
+  var error = $("#error")
+  error.children().remove();
     // 時刻をキーにして入力されたテキストを保存する
     var array = {};
-    array['listName'] = $("input:first").val();
+    array['listKey'] = $("input:first").val();
     array['todoType'] = "list"
     //array['id'] = localStorage.getItem("listnum");
     //localStorage.setItem("listnum", array.id + 1);
@@ -59,17 +60,33 @@ function saveText() {
     var second = toDoubleDigits(nowtime.getSeconds()).toString();
     array['listDate'] = year + month + day + hour + minute + second;
     //array['listTime'] = hour + ":" + minute + ":" + second;
-    listid = "list" + array.listName;
+    listid = array.listKey;
     //alert(listid);
     localStorage.setItem(listid, JSON.stringify(array));
     //var value = JSON.parse(localStorage.getItem(listid));
-    //alert(value.listname);
+    //alert(value.listkey);
     //localStorage.setItem(time, text.val());
     // テキストボックスを空にする
     //text.val("");
-  }
 }
 
+function errorCheck() {
+  var error = $("#error")
+  error.children().remove();
+  var html = [];
+  if($("input:first").val().length > 30){
+    html.push("<p>リストの名称は30字以内にしてください</p>");
+    error.append(html.join(''));
+    return false;
+  }else if($("input:first").val().length <= 0){
+    html.push("<p>リスト名が入力されていません</p>");
+    error.append(html.join(''));
+    return false;
+  }
+  return true;
+}
+
+// 月や日が1桁の時に頭に0を付け足す
 function toDoubleDigits(num) {
   num += "";
   if (num.length === 1) {
@@ -86,22 +103,22 @@ function clearText() {
 
 function addData() {
   var array = {};
-  array['listName'] = "れぽーと";
+  array['listKey'] = "れぽーと";
   array['todoType'] = "list";
   array['listDate'] = "20140305151039";
-  listid = "list" + array.listName;
+  listid = array.listKey;
   localStorage.setItem(listid, JSON.stringify(array));
 
-  array['listName'] = "おてつだい";
+  array['listKey'] = "おてつだい";
   array['todoType'] = "list";
   array['listDate'] = "20150305151039";
-  listid = "list" + array.listName;
+  listid = array.listKey;
   localStorage.setItem(listid, JSON.stringify(array));
 
-  array['listName'] = "おしごと";
+  array['listKey'] = "おしごと";
   array['todoType'] = "list";
   array['listDate'] = "20160305151039";
-  listid = "list" + array.listName;
+  listid = array.listKey;
   localStorage.setItem(listid, JSON.stringify(array));
 }
 
@@ -135,13 +152,68 @@ function sortDate() {
   var html = [];
   for(i=0, arraylen=forSortArray.length; i<arraylen; i++) {
     for(var j=0; j<storagelen; j++) {
-      key = localStorage.key(j);
-      value = JSON.parse(localStorage.getItem(key));
+      var key = localStorage.key(j);
+      var value = JSON.parse(localStorage.getItem(key));
       if(forSortArray[i] == value.listDate){
-        //alert(value.listName);
-       html.push("<div id = \"list\"><a href = \"todoadd.html/?id=" + value.listName + "\">" + value.listName + "</a></div>");
+        var numFinish = countFinish(key);
+        var nearLimit = sortLimit(key);
+        //alert(value.listKey);
+        html.push("<dl id = \"list\"><a href = \"todoadd.html/?id=" + value.listKey + "\"><h2>" + value.listKey + "</h2></a><dt>" + numFinish + "</dt><dt>〜" + nearLimit + "</dt></dl>");
       };
     }
   }
   list.append(html.join(''));
+}
+
+function countFinish(listKey) {
+  //alert(listkey);
+  var allFinish = 0;
+  var alreadyFinish = 0;
+  for(var i=0, storagelen=localStorage.length; i<storagelen; i++) {
+    var todoKey = localStorage.key(i);
+    var todoValue = JSON.parse(localStorage.getItem(todoKey));
+    if(listKey == todoValue.listName) {
+      allFinish++;
+      if(todoValue.finish == "N") {
+        finish = "未完了";
+      }else if(todoValue.finish == "Y") {
+        finish = "完了";
+        alreadyFinish++;
+      }else {
+        //alert("Count Finish Error.");
+      }
+    }
+  }
+  if(allFinish > 0){
+    return (allFinish + "個中" + alreadyFinish + "個がチェック済み");
+  }else {
+    return "ToDoはありません";
+  }
+}
+
+function sortLimit(listKey) {
+  //var forSortArray = {};
+  var forSortArray = Array();
+  var sortListNum = 0;
+// 日付の比較
+  for(var i=0, storagelen=localStorage.length; i<storagelen; i++) {
+    var forSortkey = localStorage.key(i);
+    var forSortvalue = JSON.parse(localStorage.getItem(forSortkey));
+    if (listKey == forSortvalue.listName){
+      // todoLimitには「yyyymmdd」が入っている
+      forSortArray[sortListNum] = forSortvalue.todoLimit;
+      //alert(forSortArray[sortListNum]);
+      sortListNum++;
+    }
+  }
+  forSortArray.sort(function(a, b) {
+    return (a > b ? 1 : -1);
+  });
+  if (forSortArray.length > 0) {
+    var todoLimit = (forSortArray[0]).slice(0, 4) + "年" + (forSortArray[0]).slice(4, 6) + "月" + (forSortArray[0]).slice(6, 8) + "日";
+    return todoLimit;
+  }else {
+    return "";
+  }
+
 }

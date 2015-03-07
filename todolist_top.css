@@ -35,18 +35,31 @@ div#header {
 
 /* ボディの定義 */
 div#body-bk {
-    padding:160px 0 160px 0;    /* 上下に160pxを余白を取る */
+  margin: 160px;               /* 枠のマージン10px */
 }
 
-div#body {
-    width:960px;
-    margin:auto;
+input#formButton {
+  width: 150px;
+  height: 50px;
+  font-size: 1.2em;
+  background-color: #000;
+  color: #fff;
+  border-style: none;
 }
 
-div#list {
+div#listall dl {
   border: 5px solid #29526D;    /* 表示領域を白枠で囲う */
-  height: 100px;             /* 縦の幅100px */
+  height: 180px;             /* 縦の幅100px */
   width: 460px;              /* 横の幅460px */
   margin: 10px;               /* 枠のマージン10px */
-  padding: 10px 5px 10px 20px
+  padding: 10px 5px 10px 20px; /* 上右下左 */
+}
+
+dl#list h2 {
+  color: #87cefa;
+}
+
+div#error p{
+  font-size: 1.5em;
+  color: #FF0000;
 }

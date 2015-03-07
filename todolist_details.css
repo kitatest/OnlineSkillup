@@ -59,6 +59,14 @@ div#todoall dd {
   left: 250px;
 }
 
+div#error p{
+  font-size: 1.5em;
+  color: #FF0000;
+}
+
+div#todoall dt {
+  color: #87CEFA;
+}
 /*
 input#finishButton0 {
   width: 150px;
