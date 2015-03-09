@@ -1,88 +1,140 @@
 /* html,bodyタグの設定 */
 html, body{
-    margin: 0;         /* 余白の削除 */
-    padding: 0;        /* 余白の削除 */
-    width:100%;
-    height:100%;
+		margin: 0;         /* 余白の削除 */
+		padding: 0;        /* 余白の削除 */
+		width:100%;
+		height:100%;
 }
 
 /* ヘッダーの固定 */
 div#header-fixed
 {
-    position: fixed;            /* ヘッダーの固定 */
-    top: 0px;                   /* 位置(上0px) */
-    left: 0px;                  /* 位置(右0px) */
-    width: 100%;                /* 横幅100%　*/
-    height: 140px;              /* 縦幅140px */
+		position: fixed;            /* ヘッダーの固定 */
+		top: 0px;                   /* 位置(上0px) */
+		left: 0px;                  /* 位置(右0px) */
+		width: 100%;                /* 横幅100%　*/
+		height: 140px;              /* 縦幅140px */
+		z-index: 2;
 }
 
 
 div#header-bk {
-  background-color:#444;     /* 背景色(黒) */
-  padding:10px 0 20px;       /* 上10px、下20pxをあける */
-  height:110px;              /* 縦の高さ110px */
-  width:100%;                /* 横の幅を100% */
+	background-image: url(image/header_back.jpg);
+	background-position: center center;
+	background-repeat:  no-repeat;
+	background-size: cover;
+	padding:10px 0 20px;       /* 上10px、下20pxをあける */
+	height:110px;              /* 縦の高さ110px */
+	width:100%;                /* 横の幅を100% */
 }
 
 
 div#header {
-  border: 5px solid #fff;    /* 表示領域を白枠で囲う */
-  padding: 30px 30px;       /* 上30px、下30pxをあける */
-  height: 50%;              /* 縦の表示領域はheader-bkと同じ */
-  width: 960px;              /* 横の幅970px */
-  margin: auto;              /* 中央揃え */
+	background-color: rgba(255,255,255,0.8);
+	border: 5px solid #fff;    /* 表示領域を白枠で囲う */
+	padding: 30px 30px;       /* 上30px、下30pxをあける */
+	height: 50%;              /* 縦の表示領域はheader-bkと同じ */
+	width: 960px;              /* 横の幅970px */
+	margin: auto;              /* 中央揃え */
+}
+
+div#header a{
+	font-size: 2.5em;
+	color: #ff9900;
+	text-decoration: none;
+}
+div#header a:hover {/*マウスをのせたとき*/
+		color: #ff0000;
+		font-style: normal;
+		text-decoration: underline;
 }
 
 div#body-bk {
-  margin: 160px;               /* 枠のマージン10px */
+	margin: 160px;               /* 枠のマージン10px */
 }
 
-form dl dt {
-  border-left:5px solid #29526D;    /* 表示領域を白枠で囲う */
-  border-bottom: 1px solid #29526D;
-  padding: 5px;       /* 上30px、下30pxをあける */
-  width: 460px;              /* 横の幅460px */
-  margin: 10px;               /* 枠のマージン10px */
+div#new-todo {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+
+}
+
+div#formtodo {
+	margin-left: auto;
+	margin-right: auto;
+	/* width: 100%; */
+	text-align: center;
+}
+
+form dl {
+	border: 5px solid #29526d;    /* 表示領域を白枠で囲う */
+	/* border-left:5px solid #29526d;
+	border-bottom: 1px solid #29526d; */
+	padding: 5px 20px;       /* 上下5px、左右20pxをあける */
+	width: 660px;               /* 横の幅660px */
+	height: 230px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+form dl dt{
+	text-align: left;
+}
+
+form dl dd{
+	text-align: left;
+	margin: 10px 0px;
+}
+
+input#addToDo {
+	position: relative;
+	top: -100px;
+	left: 200px;
+	width: 200px;
+	height: 80px;
+	font-size: 1.5em;
+	background-color: #00aa72;
+	color: #fff;
+	border-top: 3px solid #ddd;
+	border-left: 3px solid #ddd;
+	border-right: 3px solid #bbb;
+	border-bottom: 3px solid #bbb;
+	border-radius: 10px;        /* CSS3草案 */
+	-webkit-border-radius: 10px;    /* Safari,Google Chrome用 */
+	-moz-border-radius: 10px;     /* Firefox用 */
+	cursor: pointer;
+	z-index: 2;
+}
+input#addToDo:hover {
+	background-color: #4bb;
+	box-shadow:inset 0px 0px 3px #fff;
 }
 
 div#todoall dl {
-  border: 5px solid #29526D;    /* 表示領域を白枠で囲う */
-  height: 180px;             /* 縦の幅100px */
-  width: 460px;              /* 横の幅460px */
-  margin: 10px;               /* 枠のマージン10px */
-  padding: 10px 5px 10px 20px; /* 上右下左 */
+	background: #ffffff;
+	border-left: 30px solid #ff9900;
+	height: 150px;             /* 縦の幅150px */
+	width: 460px;              /* 横の幅460px */
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px 15px 10px 15px;
+	/* margin: 10px -20px 10px 100px; */
+	box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(0, 0, 0, 0.1) ;
 }
 
 div#todoall dd {
-  position: relative;
-  top: -60px;
-  left: 250px;
+	position: relative;
+	top: -60px;
+	left: 250px;
 }
 
 div#error p{
-  font-size: 1.5em;
-  color: #FF0000;
+	font-size: 1.5em;
+	color: #ff0000;
+	text-align: center;
 }
 
 div#todoall dt {
-  color: #87CEFA;
+	color: #ff5600;
 }
-/*
-input#finishButton0 {
-  width: 150px;
-  height: 50px;
-  font-size: 1.2em;
-  background-color: #000;
-  color: #fff;
-  border-style: none;
-}
-
-input#finishButton1 {
-  width: 150px;
-  height: 50px;
-    font-size: 1.2em;
-    background-color: #000;
-    color: #fff;
-    border-style: none;
-}
-*/
