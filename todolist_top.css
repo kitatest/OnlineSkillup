@@ -1,146 +1,201 @@
 /* html,bodyタグの設定 */
-html, body{
-		margin: 0;         /* 余白の削除 */
-		padding: 0;        /* 余白の削除 */
-		width:100%;
-		height:100%;
+html, body {
+	/* 余白の削除 */
+	margin: 0;
+	padding: 0;
+	width:100%;
+	height:100%;
+	/* フォントの設定 */
+	font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
 }
 
-div#header-fixed
-{
-		position: fixed;            /* ヘッダーの固定 */
-		top: 0px;                   /* 位置(上0px) */
-		left: 0px;                  /* 位置(右0px) */
-		width: 100%;                /* 横幅100%　*/
-		height: 140px;              /* 縦幅140px */
-		z-index: 2;
+/* 固定するヘッダの設定 */
+div#header-fixed {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 140px;
+	/* ボタンの前にヘッダが出るようにする */
+	z-index: 2;
 }
 
-
+/* ヘッダの背景設定 */
 div#header-bk {
 	background-image: url(image/header_back.jpg);
 	background-position: center center;
-	background-repeat:  no-repeat;
+	background-repeat: no-repeat;
 	background-size: cover;
-	padding:10px 0 20px;       /* 上10px、下20pxをあける */
-	height:110px;              /* 縦の高さ110px */
-	width:100%;                /* 横の幅を100% */
+	/* 上10px、下20pxをあける */
+	padding: 10px 0 20px;
+	/* 縦の高さ110px */
+	height: 110px;
+	/* 横の幅を100% */
+	width: 100%;
 }
 
-
+/* ヘッダの枠部分の設定 */
 div#header {
+	/* 背景に透過をかける */
 	background-color: rgba(255,255,255,0.8);
-	border: 5px solid #fff;    /* 表示領域を白枠で囲う */
-	padding: 30px 30px;       /* 上30px、下30pxをあける */
-	height: 50%;              /* 縦の表示領域はheader-bkと同じ */
-	width: 960px;              /* 横の幅970px */
-	margin: auto;              /* 中央揃え */
+	/* 表示領域を白枠で囲う */
+	border: 5px solid #fff;
+	/* 上30px、下30pxをあける */
+	padding: 30px 30px;
+	/* 縦の表示領域はheader-bkと同じ */
+	height: 50%;
+	/* 横の幅970px */
+	width: 960px;
+	/* 中央揃え */
+	margin: auto;
 }
 
+/* ヘッダのリンク付き文字設定 */
 div#header a{
 	font-size: 2.5em;
 	color: #ff9900;
+	/* 普段はリンク部分の下線を入れない */
 	text-decoration: none;
 }
-div#header a:hover {/*マウスをのせたとき*/
-		color: #ff0000;
-		font-style: normal;
-		text-decoration: underline;
+/*マウスをのせたとき*/
+div#header a:hover {
+	color: #ff0000;
+	font-style: normal;
+	text-decoration: underline;
 }
 
 
-/* ボディの定義 */
+/* ボディの設定 */
 div#body-bk {
-	margin: 160px;               /* 枠のマージン10px */
-	width: 960px;              /* 横の幅970px */
+	/* 枠のマージン160px */
+	margin: 160px;
+	/* 横の幅960px */
+	width: 960px;
 }
 
-div#formList {
+/* todoリスト入力フォーム部分の設定 */
+div#formList dl {
+	/* 入力フォームに薄く影の枠をつけ、角丸にする */
+	box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	/* 上下5px、左右20pxをあける */
+	padding: 5px 20px;
+	/* 横の幅660px */
+	width: 660px;
+	/* 高さ230px */
+	height: 230px;
+	/* 中央揃え */
 	margin-left: auto;
 	margin-right: auto;
-	/* width: 100%; */
 	text-align: center;
 }
 
-form dl {
-	border: 5px solid #29526d;    /* 表示領域を白枠で囲う */
-	/* border-left:5px solid #29526d;
-	border-bottom: 1px solid #29526d; */
-	padding: 5px 20px;       /* 上下5px、左右20pxをあける */
-	width: 660px;               /* 横の幅660px */
-	height: 230px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-form dl dt{
-	text-align: left;
-}
-
-form dl dd{
+/* フォームの文字・入力部分の設定 */
+div#formlist dl dt, div#formlist dl dd {
 	text-align: left;
 	margin: 10px 0px;
 }
 
+/* フォーム部分の設定 */
+input#addForm {
+	/* テキストは少し大きめに、枠は角丸にする */
+	font-size: 1.2em;
+	border-radius: 10px;
+	/* 横の幅300px */
+	width: 300px;
+	/* 高さ30px */
+	height: 30px;
+}
+
+/* リスト作成ボタンの設定 */
 input#addList {
+	/* 本来の場所から上に60px、右に200pxずれている*/
 	position: relative;
 	top: -60px;
 	left: 200px;
+	/* ボタンの横の幅200px */
 	width: 200px;
+	/* ボタンの高さ80px */
 	height: 80px;
 	font-size: 1.5em;
+	/* 背景緑、文字白 */
 	background-color: #00aa72;
 	color: #fff;
+	/* 薄く灰色の枠をつける */
 	border-top: 3px solid #ddd;
 	border-left: 3px solid #ddd;
 	border-right: 3px solid #bbb;
 	border-bottom: 3px solid #bbb;
-	border-radius: 10px;        /* CSS3草案 */
-	-webkit-border-radius: 10px;    /* Safari,Google Chrome用 */
-	-moz-border-radius: 10px;     /* Firefox用 */
+	border-radius: 10px;
+	/* ボタンの上にカーソルを置くと指になる */
 	cursor: pointer;
+	/* ボタンがヘッダの前に出ないようにする */
 	z-index: 1;
 }
+/* マウスをのせたとき */
 input#addList:hover {
+	/* 若干色を薄くする */
 	background-color: #4bb;
 	box-shadow:inset 0px 0px 3px #fff;
 }
+/* マウスでクリックしたとき */
+input#addList:active {
+	/* 若干右下にずらすことでボタンを押したように感じさせる */
+	background-color: #4bb;
+	position : relative;
+	top: -59px;
+	left: 201px;
+}
 
+/* 追加したリストの設定 */
 div#listAll dl {
+	/* 付箋っぽくする */
 	background: #ffffff;
-	border-left: 30px solid #852e19;
-	height: 150px;             /* 縦の幅150px */
-	width: 460px;              /* 横の幅460px */
+	border-left: 30px solid #2419b2;
+	/* 縦の幅150px */
+	height: 150px;
+	/* 横の幅460px */
+	width: 460px;
+	/* リストも中央揃え */
 	margin-left: auto;
 	margin-right: auto;
 	padding: 10px 15px 10px 15px;
-	/* margin: 10px -20px 10px 100px; */
+	/* 付箋にも薄く影の枠をつける */
 	box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(0, 0, 0, 0.1) ;
 }
 
+/* リストの中の設定 */
 dl#list {
+	/* 仲のテキストの中央揃え */
 	margin-left: auto;
 	margin-right: auto;
 	width: 100%;
 	text-align: center;
 }
 
+/* リスト名の設定 */
 dl#list h2 {
+	/* 色は青 */
 	color: #2419b2;
 	text-decoration: underline;
 }
-dl#list h2:hover {/*マウスをのせたとき*/
-		color: #ff0000;
-		font-style: normal;
-		text-decoration: underline;
+/* マウスをのせたとき */
+dl#list h2:hover {
+	/* 色は赤 */
+	color: #ff0000;
+	font-style: normal;
+	text-decoration: underline;
 }
 
+/* エラー部分の設定 */
 div#error p{
 	font-size: 1.5em;
+	/* 色は赤 */
 	color: #ff0000;
 	text-align: center;
 }
 
+/* リスト作成成功部分の設定 */
 div#success p{
 	font-size: 1.5em;
 	text-align: center;

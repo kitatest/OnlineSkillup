@@ -2,34 +2,33 @@
 	<head>
 	<meta charset="UTF-8" />
 	<title>Details: TODOリスト</title>
-	<link rel="stylesheet" href="../todolist_details.css">
+	<link rel="stylesheet" href="todolist_details.css">
 </head>
 <body>
 	<div id="header-fixed">
 		<div id="header-bk">
 			<div id="header">
-				<!--<a href = "../search.html"><Div Align="right"><font size="5" color="#69B1B4">検索</font></Div></a>-->
-				<a href = "../todolist.html">TODOリスト</a>
+				<a href = "todolist.html">TODOリスト</a>
 			</div>
 		</div>
 	</div>
 	<div id="body-bk">
-			<h1><div id="new-todo"></div></h1>
-			<div id="formtodo">
+			<h1><div id="newToDo"></div></h1>
+			<div id="formToDo">
 			<form><dl>
 				<h2>新しいToDoを作成する</h2>
 				<dt>ToDo名</dt>
-				<dd><input id = "name" type = "text" name = "todoname" size="50"></dd>
-				<dt>期限</dt>
-				<dd><input id = "limit" type = "text" name = "todolimit" size="50"></dd>
+				<dd><input id = "nameForm" type = "text" name = "todoname" size="30"></dd>
+				<dt>期限（年/月/日）</dt>
+				<dd><input id = "limitForm" type = "date" name = "todolimit" size="30"></dd>
 				<input id="addToDo" type="button" value="ToDoの追加">
 			</dl></form></div>
-			<div id="error"></div>
-			<div id="success"></div>
-			<div id="todoall"></div>
+			<div id="error"><p></p></div>
+			<div id="success"><p></p></div>
+			<div id="todoAll"></div>
 	</div>
 
 	<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-	<script src="../createtodo.js"></script>
+	<script src="createtodo.js"></script>
 </body>
 </html>
